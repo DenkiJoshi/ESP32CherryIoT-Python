@@ -1,8 +1,8 @@
-import machine
+from machine import Pin, I2C
 import time
 
 # I2C setup
-i2c = machine.I2C(1, scl=machine.Pin(32), sda=machine.Pin(33), freq=400000)
+i2c = I2C(1, scl=Pin(32), sda=Pin(33), freq=400000)
 address = 0x38
 
 # Trigger command
