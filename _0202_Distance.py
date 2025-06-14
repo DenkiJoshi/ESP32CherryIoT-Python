@@ -4,20 +4,20 @@ import time
 SOUND_SPEED = 340  # Speed of sound in air
 TRIG_PULSE_DURATION_US = 10
 
-trig_pin = Pin(32, Pin.OUT)
-echo_pin = Pin(33, Pin.IN)
+trigPin = Pin(3, Pin.OUT)  # 3:ConnectorA 4:ConnectorB
+echoPin = Pin(1, Pin.IN)  # 1:ConnectorA 5:ConnectorB
 
 while True:
     # Prepare the signal
-    trig_pin.value(0)
+    trigPin.value(0)
     time.sleep_us(5)
     # Create a 10 µs pulse
-    trig_pin.value(1)
+    trigPin.value(1)
     time.sleep_us(TRIG_PULSE_DURATION_US)
-    trig_pin.value(0)
+    trigPin.value(0)
 
     # Get the duration of the ultrasonic wave propagation (in µs)
-    ultrason_duration = time_pulse_us(echo_pin, 1, 30000)
+    ultrason_duration = time_pulse_us(echoPin, 1, 30000)
     # Calculate distance in centimeters using the speed of sound
     distance_cm = SOUND_SPEED * ultrason_duration / 20000
 

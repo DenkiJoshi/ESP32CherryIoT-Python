@@ -1,7 +1,8 @@
 from machine import Pin, PWM
 import time
 
-InputPin = 25
+speakerPin = 3  # 3:ConnectorA 4:ConnectorB
+
 BEAT = 230
 DO = 261.6
 _DO = 277.18
@@ -18,9 +19,11 @@ TI = 493.883
 octDO = 523.251
 
 # Initialize PWM object
-pwm = PWM(Pin(InputPin))
+pwm = PWM(Pin(speakerPin))
+pwm.duty_u16(32768)  # 50% duty cycle
 
 def doremi():
+    pwm.init()
     pwm.freq(int(DO))
     time.sleep_ms(BEAT * 2)
     pwm.freq(int(RE))
@@ -39,9 +42,9 @@ def doremi():
     time.sleep_ms(BEAT)
     pwm.deinit()
     time.sleep_ms(BEAT)
-    pwm.init(freq=1) 
 
 def melodychime():
+    pwm.init()
     pwm.freq(int(RA))
     time.sleep_ms(BEAT)
     pwm.freq(int(FA))
@@ -68,9 +71,9 @@ def melodychime():
     time.sleep_ms(BEAT * 3)
     pwm.deinit()
     time.sleep_ms(BEAT)
-    pwm.init(freq=1)
 
 def fryer():
+    pwm.init()
     pwm.freq(int(SO))
     time.sleep_ms(BEAT)
     pwm.freq(int(FA))
@@ -79,7 +82,7 @@ def fryer():
     time.sleep_ms(BEAT)
     pwm.deinit()
     time.sleep_ms(BEAT)
-    pwm.init(freq=1)
+    pwm.init()
     pwm.freq(int(SO))
     time.sleep_ms(BEAT)
     pwm.freq(int(FA))
@@ -88,7 +91,7 @@ def fryer():
     time.sleep_ms(BEAT)
     pwm.deinit()
     time.sleep_ms(BEAT)
-    pwm.init(freq=1)
+    pwm.init()
     pwm.freq(int(SO))
     time.sleep_ms(BEAT)
     pwm.freq(int(FA))
@@ -97,7 +100,7 @@ def fryer():
     time.sleep_ms(BEAT)
     pwm.deinit()
     time.sleep_ms(BEAT)
-    pwm.init(freq=1)
+    pwm.init()
     pwm.freq(int(SO))
     time.sleep_ms(BEAT)
     pwm.freq(int(FA))
@@ -106,16 +109,8 @@ def fryer():
     time.sleep_ms(BEAT)
     pwm.deinit()
     time.sleep_ms(BEAT)
-    pwm.init(freq=1)
 
-def setup():
-    pass
-
-def loop():
-    while True:
-        doremi()
-        melodychime()
-        fryer()
-
-setup()
-loop()
+while True:
+    doremi()
+    melodychime()
+    fryer()

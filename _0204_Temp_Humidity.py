@@ -1,8 +1,9 @@
+# Import it into main.py and upload it to your device
 from machine import Pin, I2C
 import time
 
 # I2C setup
-i2c = I2C(1, scl=Pin(32), sda=Pin(33), freq=400000)
+i2c = I2C(0, scl=Pin(3), sda=Pin(1), freq=400000)  # 3,1:ConnectorA 4,5:ConnectorB
 address = 0x38
 
 # Trigger command

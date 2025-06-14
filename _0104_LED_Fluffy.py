@@ -1,8 +1,8 @@
 from machine import Pin, PWM
 import time
 
-led_pin = Pin(25, Pin.OUT)
-pwm = PWM(led_pin)
+ledPin = Pin(3, Pin.OUT)  # 3:ConnectorA 4:ConnectorB 10:Builtin
+pwm = PWM(ledPin)
 
 while True:
     for i in range(256):  # Increase the brightness from 0 to 255

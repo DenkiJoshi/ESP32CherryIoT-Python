@@ -1,7 +1,7 @@
 from machine import Pin
 import time
 
-rupt_pin = Pin(32, Pin.IN)
+rupt_pin = Pin(3, Pin.IN)  # 3:ConnectorA 4:ConnectorB
 
 while True:
     if rupt_pin.value() == 0:

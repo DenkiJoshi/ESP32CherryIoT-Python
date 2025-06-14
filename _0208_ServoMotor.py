@@ -20,7 +20,7 @@ class Servo:
         self.period_hertz = hertz
         self.pwm.freq(hertz)
 
-servo = Servo(pin=25)
+servo = Servo(pin=3)
 
 while True:
     for angle in range(0, 181): # 0-180 right
