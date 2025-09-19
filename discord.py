@@ -7,7 +7,7 @@ INPUT_PIN = 3                # 光センサー接続ピン（ESP32のADCピン�
 DEVICE_VOLTAGE = 3.3         # 参照電圧
 WIFI_SSID = 'YOUR_SSID'
 WIFI_PASSWORD = 'YOUR_PASSWORD'
-DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/xxxxxxxx/xxxxxxxx'  # ←Webhook URL
+DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1418489982670213170/80mDu__xAyf36Z1d1ID66hhJ7aSgxUYaw6xGhv-pH9QFwBZyT_RW4YlN8JcZ40OZ3c02'  # ←Webhook URL
 
 # ====== Wi-Fi接続 ======
 def connect_wifi(ssid, password, timeout=30):
