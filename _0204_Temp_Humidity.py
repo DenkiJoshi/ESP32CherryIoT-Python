@@ -1,41 +1,47 @@
-# Import it into main.py and upload it to your device
 from machine import Pin, I2C
 import time
 
-# I2C setup
-i2c = I2C(0, scl=Pin(3), sda=Pin(1), freq=400000)  # 3,1:ConnectorA 4,5:ConnectorB
-address = 0x38
+# 1,3: ConnectorA / 5,4: ConnectorB
+i2c = I2C(0, sda=Pin(1), scl=Pin(3), freq=400000)
 
-# Trigger command
-set_cmd = [0xAC, 0x33, 0x00]
+DHT20_ADDR = 0x38
 
-# Buffer for reading data
-data = bytearray(7)
+def read_dht20():
+    # Measurement start command
+    i2c.writeto(DHT20_ADDR, bytes([0xAC, 0x33, 0x00]))
+    time.sleep_ms(80)
 
-def read_sensor():
-    # Send trigger command
-    time.sleep(0.01)
-    i2c.writeto_mem(address, 0x00, bytearray(set_cmd))
-    
-    # Read data
-    time.sleep(0.08)
-    data = i2c.readfrom_mem(address, 0x00, 7)
-    
-    # Convert data
-    hum = (data[1] << 12) | (data[2] << 4) | ((data[3] & 0xF0) >> 4)
-    temp = ((data[3] & 0x0F) << 16) | (data[4] << 8) | data[5]
-    
-    # Convert to physical values
-    hum = hum / (2**20) * 100
-    temp = temp / (2**20) * 200 - 50
-    
-    return temp, hum
+    data = i2c.readfrom(DHT20_ADDR, 7)
+
+    # Check the bit during measurement.
+    if data[0] & 0x80:
+        raise RuntimeError("DHT20 is busy")
+
+    # humidity 20bit
+    raw_hum = (
+        (data[1] << 12)
+        | (data[2] << 4)
+        | (data[3] >> 4)
+    )
+
+    # temprature 20bit
+    raw_temp = (
+        ((data[3] & 0x0F) << 16)
+        | (data[4] << 8)
+        | data[5]
+    )
+
+    humidity = raw_hum * 100 / 1048576
+    temperature = raw_temp * 200 / 1048576 - 50
+
+    return temperature, humidity
+
 
 while True:
     try:
-        temp, hum = read_sensor()
-        print("Temperature: {:.2f}℃  Humidity: {:.2f}%".format(temp, hum))
-    except OSError as e:
-        print("ERROR: ", e)
-    
-    time.sleep(2)
+        temp, hum = read_dht20()
+        print("{:.1f}℃ / {:.1f}％".format(temp, hum))
+    except Exception as e:
+        print("DHT20 read error:", e)
+
+    time.sleep_ms(500)
