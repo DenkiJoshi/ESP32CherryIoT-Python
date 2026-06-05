@@ -1,3 +1,4 @@
+# need upload this file and make main.py
 from machine import Pin, I2C
 import time
 
